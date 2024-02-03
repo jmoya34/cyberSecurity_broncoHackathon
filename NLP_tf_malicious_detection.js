@@ -53,6 +53,8 @@ async function calculateSimilarity(sentences) {
 
 // Function to analyze email content for phishing indicators
 function analyzeForPhishingIndicators(emailContent) {
+  const emailContentLower = emailContent.toLowerCase();
+  let matchedIndicators = [];
   const phishingIndicators = [
     "urgent", "confidential", "verify your account", "sensitive information", "immediate action required",
     "account suspended", "security alert", "update your account", "validate your account",

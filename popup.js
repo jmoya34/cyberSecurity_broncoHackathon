@@ -2,6 +2,9 @@ function handleTextExtraction(result) {
   var extractedText = result[0];
   console.log("Extracted Text:", extractedText);
 
+  // THIS DISPLAYS THE EXTRACTED TEXT IN THE OUTPUT DIV, CHANGE LATER TO ONLY DISPLAY KEY WORDS 
+  document.getElementById('output').innerText = extractedText;
+
   // Split the extracted text into an array of sentences
   var sentences = extractedText.split(/[.!?]/);
 
