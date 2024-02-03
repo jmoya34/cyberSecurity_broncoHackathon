@@ -11,7 +11,10 @@ async function loadModel() {
 // Function to calculate cosine similarity between two vectors
 function calculateCosineSimilarity(vector1, vector2) {
   // Calculate the dot product of the two vectors
-  const dotProduct = vector1.reduce((acc, val, idx) => acc + val * vector2[idx], 0);
+  const dotProduct = vector1.reduce(
+    (acc, val, idx) => acc + val * vector2[idx],
+    0,
+  );
 
   // Calculate the magnitude of each vector
   const magnitude1 = Math.sqrt(vector1.reduce((acc, val) => acc + val ** 2, 0));
@@ -36,13 +39,17 @@ async function calculateSimilarity(sentences) {
     // Calculate cosine similarities between all pairs of embeddings
     for (let i = 0; i < embeddingsArray.length; i++) {
       for (let j = i + 1; j < embeddingsArray.length; j++) {
-        const cosineSimilarity = calculateCosineSimilarity(embeddingsArray[i], embeddingsArray[j]);
-        totalSimilarity += (cosineSimilarity + 1) / 2 * 100;
+        const cosineSimilarity = calculateCosineSimilarity(
+          embeddingsArray[i],
+          embeddingsArray[j],
+        );
+        totalSimilarity += ((cosineSimilarity + 1) / 2) * 100;
       }
     }
 
     // Calculate average similarity
-    const numComparisons = embeddingsArray.length * (embeddingsArray.length - 1) / 2;
+    const numComparisons =
+      (embeddingsArray.length * (embeddingsArray.length - 1)) / 2;
     const averageSimilarity = totalSimilarity / numComparisons;
     console.log(`Average Similarity: ${averageSimilarity.toFixed(2)}%`);
     return averageSimilarity;
@@ -56,35 +63,76 @@ function analyzeForPhishingIndicators(emailContent) {
   const emailContentLower = emailContent.toLowerCase();
   let matchedIndicators = [];
   const phishingIndicators = [
-    "urgent", "confidential", "verify your account", "sensitive information", "immediate action required",
-    "account suspended", "security alert", "update your account", "validate your account",
-    "account verification", "confirm password", "confirm identity", "account deactivated",
-    "security notice", "account compromised", "unusual activity", "log in immediately",
-    "payment declined", "account locked", "security breach", "account has been locked",
-    "reset your password", "billing information", "final warning", "account cancellation",
-    "immediate attention required", "unauthorized login attempt", "secure your account",
-    "account will be terminated", "suspicious activity", "reactivate your account",
-    "claim your reward", "prize winner", "free gift", "special offer",
-    "limited time offer", "confidential financial information", "wire transfer",
-    "bank details", "tax refund", "credit limit exceeded", "payment overdue",
-    "order confirmation", "transaction alert", "money transfer", "account update required",
-    "policy update", "legal action", "government notice", "court notice",
-    "failure to comply", "mandatory update", "security update required", "official notification"
+    "urgent",
+    "confidential",
+    "verify your account",
+    "sensitive information",
+    "immediate action required",
+    "account suspended",
+    "security alert",
+    "update your account",
+    "validate your account",
+    "account verification",
+    "confirm password",
+    "confirm identity",
+    "account deactivated",
+    "security notice",
+    "account compromised",
+    "unusual activity",
+    "log in immediately",
+    "payment declined",
+    "account locked",
+    "security breach",
+    "account has been locked",
+    "reset your password",
+    "billing information",
+    "final warning",
+    "account cancellation",
+    "immediate attention required",
+    "unauthorized login attempt",
+    "secure your account",
+    "account will be terminated",
+    "suspicious activity",
+    "reactivate your account",
+    "claim your reward",
+    "prize winner",
+    "free gift",
+    "special offer",
+    "limited time offer",
+    "confidential financial information",
+    "wire transfer",
+    "bank details",
+    "tax refund",
+    "credit limit exceeded",
+    "payment overdue",
+    "order confirmation",
+    "transaction alert",
+    "money transfer",
+    "account update required",
+    "policy update",
+    "legal action",
+    "government notice",
+    "court notice",
+    "failure to comply",
+    "mandatory update",
+    "security update required",
+    "official notification",
   ];
 
   for (let indicator of phishingIndicators) {
-    if (emailContentLower.includes(indicator)) {
-    matchedIndicators.push(indicator);
+    if (emailContentLower.includes(indicator.toLowerCase())) {
+      matchedIndicators.push(indicator);
     }
   }
   // Log the number of matched keywords and the list of matched keywords
-    console.log(`${matchedIndicators.length} indicators detected`);
-    if (matchedIndicators.length > 0) {
-      console.log(`The indicators detected were [${matchedIndicators.join(', ')}]`);
-    }
-
-    return matchedIndicators.length > 0; // Return true if any keywords were found, false otherwise
+  console.log(`${matchedIndicators.length} indicators detected`);
+  if (matchedIndicators.length > 0) {
+    console.log(
+      `The indicators detected were [${matchedIndicators.join(", ")}]`,
+    );
   }
+
+  return matchedIndicators.length > 0; // Return true if any keywords were found, false otherwise
 }
 
 // Main function to analyze email
@@ -92,26 +140,25 @@ async function analyzeEmail(emailContent, aiGeneratedSentences) {
   const isPhishing = analyzeForPhishingIndicators(emailContent);
   console.log(`Phishing content detected: ${isPhishing}`);
 
-  const sentencesEmail = emailContent.split(".").filter(sentence => sentence.trim() !== "");
+  const sentencesEmail = emailContent
+    .split(".")
+    .filter((sentence) => sentence.trim() !== "");
   const combinedSentences = sentencesEmail.concat(aiGeneratedSentences);
   const averageSimilarity = await calculateSimilarity(combinedSentences);
   console.log(`Combined Average Similarity: ${averageSimilarity.toFixed(2)}%`);
 }
 
 // Example usage
-const emailContent = "Urgent: Verify your account information immediately to avoid suspension.";
-const aiGeneratedSentences = ["Your account has been compromised.", "Please confirm your password."];
+const emailContent =
+  "Urgent: Verify your account information immediately to avoid suspension.";
+const aiGeneratedSentences = [
+  "Your account has been compromised.",
+  "Please confirm your password.",
+];
 
 // Load the model and analyze the email
 loadModel().then(() => analyzeEmail(emailContent, aiGeneratedSentences));
 //------New--------
-
-
-
-
-
-
-
 
 /* // Load tensorflow module
 require("@tensorflow/tfjs");
