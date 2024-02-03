@@ -5,3 +5,14 @@ body {
 .center {
   text-align: center;
 }
+
+/* Apply styles to the output div */
+.output-div {
+  padding: 10px;
+  background-color: #d6d8ff;
+  border: 1px solid #000000;
+  margin-top: 10px;
+  max-width: 300px; 
+  overflow-wrap: break-word; 
+  word-wrap: break-word;
+}

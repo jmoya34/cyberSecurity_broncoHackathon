@@ -74,8 +74,16 @@ function analyzeForPhishingIndicators(emailContent) {
 
   for (let indicator of phishingIndicators) {
     if (emailContent.toLowerCase().includes(indicator)) {
-      return true;
+    matchedIndicators.push(indicator);
     }
+  }
+  // Log the number of matched keywords and the list of matched keywords
+    console.log(`${matchedIndicators.length} indicators detected`);
+    if (matchedIndicators.length > 0) {
+      console.log(`The indicators detected were [${matchedIndicators.join(', ')}]`);
+    }
+
+    return matchedIndicators.length > 0; // Return true if any keywords were found, false otherwise
   }
   return false;
 }
