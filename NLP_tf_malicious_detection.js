@@ -73,7 +73,7 @@ function analyzeForPhishingIndicators(emailContent) {
   ];
 
   for (let indicator of phishingIndicators) {
-    if (emailContent.toLowerCase().includes(indicator)) {
+    if (emailContentLower.includes(indicator)) {
     matchedIndicators.push(indicator);
     }
   }
@@ -85,7 +85,6 @@ function analyzeForPhishingIndicators(emailContent) {
 
     return matchedIndicators.length > 0; // Return true if any keywords were found, false otherwise
   }
-  return false;
 }
 
 // Main function to analyze email
