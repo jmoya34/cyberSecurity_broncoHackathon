@@ -69,7 +69,7 @@ function analyzeForPhishingIndicators(emailContent) {
     "policy update", "legal action", "government notice", "court notice",
     "failure to comply", "mandatory update", "security update required", "official notification"
   ];
-  const phishingKeywords = phishingIndicators.map(indicator => indicator.toLowerCase());
+
   for (let indicator of phishingIndicators) {
     if (emailContent.toLowerCase().includes(indicator)) {
       return true;
